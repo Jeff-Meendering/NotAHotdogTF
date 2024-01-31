@@ -1,10 +1,7 @@
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
 import random
 import tensorflow as tf
 import tensorflow_datasets as tfds
-from tensorflow.keras import datasets, layers, models
+from tensorflow.keras import layers, models
 
 # Load dataset
 ds, ds_info = tfds.load('food101', shuffle_files=True, as_supervised=True, with_info=True)
@@ -39,12 +36,6 @@ train_ds = train_ds.cache().batch(BATCH_SIZE).prefetch(tf.data.AUTOTUNE)
 
 valid_ds = tf.data.Dataset.sample_from_datasets([valid_hotdogs, valid_nothotdogs], weights=[0.5, 0.5], stop_on_empty_dataset=True)
 valid_ds = valid_ds.cache().batch(BATCH_SIZE).prefetch(tf.data.AUTOTUNE)
-
-# Data augmentation
-data_augmentation = tf.keras.Sequential([
-    tf.keras.layers.RandomFlip('horizontal'),
-    tf.keras.layers.RandomRotation(0.2),
-])
 
 # Set random seed
 random.seed(0)
